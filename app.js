@@ -1,4 +1,5 @@
 const cols = document.querySelectorAll ('.col');
+const input = document.querySelector('.search-element-container input');
 
 document.addEventListener ('keydown', (event) => {
     event.preventDefault();
@@ -22,14 +23,6 @@ document.addEventListener ('click', (event) => {
   }
 });
 
-function generateRandomColor() {
-    const hexCodes = '0123456789ABCDF';
-    let color = '';
-    for (let i = 0; i < 6; i++) {
-        color += hexCodes[Math.floor(Math.random() * hexCodes.length)];
-    }
-    return '#' + color;
-}
 
 function setRandomColors(isInitial) {
     const colors = isInitial ? getColorsFromHash() : []
