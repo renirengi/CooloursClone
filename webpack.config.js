@@ -1,50 +1,80 @@
-const path = require("path");
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { merge } = require('webpack-merge');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-const mode = process.env.NODE_ENV || 'development';
-
-const devMode = mode === 'development';
-
-const target = devMode ? 'web' : 'browserslist';
-
-const devtool = devMode ? 'source-map' : undefined;
+const path = require('path');
 
 module.exports = {
-    mode,
-    target,
-    devtool,
-    entry: path.resolve(__dirname, 'src', 'app.js'),
+  mode: 'development',
+  devServer: {
+    static: [
+      {
+        directory: path.join(__dirname, 'assets'),
+      },
+      {
+        directory: path.join(__dirname, 'css'),
+      },
+      {
+        directory: path.join(__dirname, 'js'),
+      },
+    ],
+  },
+  
+  entry: {
+    main: path.resolve(__dirname, './src/app.js'),
+  },
+  module: {
+      rules: [
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        { test: /\.(?:ico|gif|png|jpg|jpeg|mp3)$/i, type: 'asset/resource' },
+        // Fonts and SVGs: Inline files
+        { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline' },
+  
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.ts?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.mp3$/,
+          use: {
+            loader: 'file-loader',
+          },
+        },
+      ],
+    },
+    resolve: {
+      extensions: ['.ts', '.js', '.json'],
+    },
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        clean: true,
-        filename: 'index.[contenthash].js',
-
+      path: path.resolve(__dirname, './dist'),
+  
     },
     plugins: [
-        new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'index.html')
-    }),
-    new MiniCssExtractPlugin({
-        filename: 'style.[contenthash].css'
-    }),
-],
-    module: {
-        rules: [
-            {
-                test: /\.(c|sa|sc)ss$/i,
-                use: [
-                    devMode ? 'style-loader' : MiniCssExtractPlugin,
-                    'css-loader',
-                    'sass-loader'
-                ],
-              },
-              {
-                test: /\.html$/i,
-                loader: "html-loader",
-              },
-        ]
-    }
-
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, './src/index.html'),
+        filename: 'index.html',
+      }),
+      new CleanWebpackPlugin(),
+  
+      // Copies files from target to destination folder
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, './src/assets'),
+            to: '',
+            globOptions: {ignore: ['*.DS_Store'],},
+            noErrorOnMissing: true,
+          },
+        ],
+      }),
+    ],
 }
+  

@@ -1,6 +1,6 @@
 const defaultSettings = {
     language: 'eng',
-    colorPallet: 'all',
+    colorPallette: 'all',
     listOfHiddenElements: [],
   };
   
@@ -36,12 +36,12 @@ const defaultSettings = {
       this.#saveSettings();
     }
   
-    get colorPallet() {
-      return this.settings.colorPallet;
+    get colorPallette() {
+      return this.settings.colorPallette;
     }
   
-    set colorPallet(color) {
-      this.settings.colorPallet = color;
+    set colorPallette(color) {
+      this.settings.colorPallette = color;
       this.#saveSettings();
     }
   
