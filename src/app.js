@@ -1,5 +1,5 @@
 import chroma from "chroma-js";
-import './styles.css';
+import './styles.scss';
 
 import { SettingsService } from './js/settings.service';
 
@@ -40,7 +40,7 @@ colorButtons.forEach((el) => el.addEventListener('click', () => changeColors(el)
 document.addEventListener ('keydown', (event) => {
     event.preventDefault();
     if (event.code.toLowerCase() == 'space') {
-        setRandomColors(); 
+        setRandomColors();
     }
 });
 
@@ -57,7 +57,7 @@ document.addEventListener ('click', (event) => {
   else if (type == "copy") {
     copyToClickboard(event.target.textContent);
   }
-  
+
 });
 
 function changeColors(color) {
@@ -113,40 +113,40 @@ function setRandomColors(isInitial, colorName) {
     else if (grey) {
       colors = grey;
     }
-  
+
     cols.forEach((col, index) => {
       const isLocked = col.querySelector('i').classList.contains('fa-lock')
       const text = col.querySelector('h2')
       const button = col.querySelector('button')
-  
+
       if (isLocked) {
         colors.push(text.textContent)
         return
       }
-  
+
       /*const color = isInitial
         ? colors[index]
           ? colors[index]
           : chroma.random()
         : chroma.random();
 
-      
 
-  
+
+
       if (!isInitial) {
         colors.push(color)
       }
-  
+
       text.textContent = color
       col.style.background = color
-  
+
       setTextColor(text, color)
       setTextColor(button, color)
     })
-  
+
     ///updateColorsHash(colors)
   }
-  
+
 
 function setTextColor(text, color) {
     const lumin = chroma(color).luminance();

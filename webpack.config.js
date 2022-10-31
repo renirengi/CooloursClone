@@ -3,10 +3,11 @@ const { merge } = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
-  devServer: {
+  /*   devServer: {
     static: [
       {
         directory: path.join(__dirname, 'assets'),
@@ -18,63 +19,61 @@ module.exports = {
         directory: path.join(__dirname, 'js'),
       },
     ],
-  },
-  
+  }, */
   entry: {
     main: path.resolve(__dirname, './src/app.js'),
   },
   module: {
-      rules: [
-        {
-          test: /\.css$/i,
-          use: ['style-loader', 'css-loader'],
+    rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+      { test: /\.(?:ico|gif|png|jpg|jpeg|mp3)$/i, type: 'asset/resource' },
+      // Fonts and SVGs: Inline files
+      { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline' },
+
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.mp3$/,
+        use: {
+          loader: 'file-loader',
         },
-        { test: /\.(?:ico|gif|png|jpg|jpeg|mp3)$/i, type: 'asset/resource' },
-        // Fonts and SVGs: Inline files
-        { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline' },
-  
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.json'],
+  },
+  output: {
+    path: path.resolve(__dirname, './dist'),
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './src/index.html'),
+      filename: 'index.html',
+    }),
+    new CleanWebpackPlugin(),
+    // Copies files from target to destination folder
+    new CopyWebpackPlugin({
+      patterns: [
         {
-          test: /\.(woff|woff2|eot|ttf|otf)$/i,
-          type: 'asset/resource',
-        },
-        {
-          test: /\.ts?$/,
-          use: 'ts-loader',
-          exclude: /node_modules/,
-        },
-        {
-          test: /\.mp3$/,
-          use: {
-            loader: 'file-loader',
-          },
+          from: path.resolve(__dirname, './src/assets'),
+          to: '',
+          globOptions: { ignore: ['*.DS_Store'] },
+          noErrorOnMissing: true,
         },
       ],
-    },
-    resolve: {
-      extensions: ['.ts', '.js', '.json'],
-    },
-    output: {
-      path: path.resolve(__dirname, './dist'),
-  
-    },
-    plugins: [
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, './src/index.html'),
-        filename: 'index.html',
-      }),
-      new CleanWebpackPlugin(),
-  
-      // Copies files from target to destination folder
-      new CopyWebpackPlugin({
-        patterns: [
-          {
-            from: path.resolve(__dirname, './src/assets'),
-            to: '',
-            globOptions: {ignore: ['*.DS_Store'],},
-            noErrorOnMissing: true,
-          },
-        ],
-      }),
-    ],
-}
-  
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
+  ],
+};

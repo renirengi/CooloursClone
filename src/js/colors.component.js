@@ -17,11 +17,39 @@ import { grey } from '../assets/color.js';
 export function initColors() {
     const settings = SettingsService.getInstance();
     const colorName = settings.colorPallette;
+
     window.addEventListener('load', () => checkColor(colorName));
     
+    document.addEventListener ('keydown', (event) => {
+    event.preventDefault();
+    if (event.code.toLowerCase() == 'space') {
+        checkColor(colorName);
+    }
+});
 }
 
 const cols = document.querySelectorAll ('.col');
+const colorButtons = document.querySelectorAll('.hex');
+
+colorButtons.forEach((el) => el.addEventListener('click', () => changeColors(el)))
+
+
+
+document.addEventListener ('click', (event) => {
+    const type = event.target.dataset.type;
+    if (type == 'lock') {
+     const node = event.target.tagName.toLowerCase() == 'i'
+     ? event.target
+     : event.target.children[0];
+  
+     node.classList.toggle('fa-lock-open');
+     node.classList.toggle('fa-lock');
+    }
+    else if (type == "copy") {
+      copyToClickboard(event.target.textContent);
+    }
+  
+  });
 
 function checkColor(colorName) {
     let colorsArr = [];
@@ -66,6 +94,7 @@ function checkColor(colorName) {
 
 function setRandomColors(colorsArr) {
     let color;
+    
      cols.forEach(col => {
         if (colorsArr.length > 0) {
         color = arrayRandElement(colorsArr);
@@ -75,11 +104,16 @@ function setRandomColors(colorsArr) {
         }
 
         col.style.background = color;
-        col.querySelector('.hex').textContent = color;
-        col.querySelector('.rgb').textContent = chroma(color).rgb();
+        let hex =  col.querySelector('.hex');
+        let rgb = col.querySelector('.rgb');
+
+        hex.textContent = color;
+        rgb.textContent = chroma(color).rgb();
+        setTextColor(hex, color);
+        setTextColor(rgb, color);
+
         let name = col.querySelector('.name');
         let colorWithoutHash=color.toString().substring(1);
-        console.log(colorWithoutHash)
         getColorName(colorWithoutHash, name);
       });
     
@@ -88,19 +122,38 @@ function setRandomColors(colorsArr) {
 
 function arrayRandElement(arr) {
     let rand = Math.floor(Math.random() * arr.length);
+    console.log(arr[rand])
     return arr[rand];
 }
 
 function getColorName(color, name) {
-    console.log (color)
 
     fetch(`https://www.thecolorapi.com/id?hex=${color}`)
   .then(res => res.json())
   .then(data => {
     console.log(data);
     
-    name.textContent = data.name.value
+    name.textContent = data.name.value;
+    setTextColor(name, color);
   })
   .catch(e => console.log(e.message))
     
 }
+
+function setTextColor(text, color) {
+    const lumin = chroma(color).luminance();
+    text.style.color = lumin > 0.5 ? 'black' : 'white';
+}
+
+function copyToClickboard(text) {
+    return navigator.clipboard.writeText(text);
+   }
+
+function changeColors(color) {
+    colorButtons.forEach((el) => el.classList.remove('active'));
+    color.classList.toggle('active');
+  
+    let colorName = color.dataset.type;
+    console.log (colorName);
+    setRandomColors(colorName);
+  }
