@@ -17,18 +17,18 @@ import { grey } from '../assets/color.js';
 export function initColors() {
     const settings = SettingsService.getInstance();
     const colorName = settings.colorPallette;
+    
+    const next = document.querySelector('.next');
 
     window.addEventListener('load', () => checkColor(colorName));
     
-    document.addEventListener ('keydown', (event) => {
-    event.preventDefault();
+    next.addEventListener ('click', (event) => {
+        checkColor(colorName); 
+    /*event.preventDefault();
     if (event.code.toLowerCase() == 'space') {
         checkColor(colorName);
-    }
+    }*/
 });
-}
-
-const cols = document.querySelectorAll ('.col');
 
 document.addEventListener ('click', (event) => {
     const type = event.target.dataset.type;
@@ -42,9 +42,16 @@ document.addEventListener ('click', (event) => {
     }
     else if (type == "copy") {
       copyToClickboard(event.target.textContent);
-    }
-  
+    }  
   });
+}
+
+const cols = document.querySelectorAll ('.col');
+
+
+
+
+
 
 function checkColor(colorName) {
     let colorsArr = [];
