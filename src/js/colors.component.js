@@ -24,13 +24,16 @@ export function initColors() {
     
     next.addEventListener ('click', (event) => {
         checkColor(colorName); 
-    /*event.preventDefault();
+    });
+
+    document.addEventListener ('keyup', (event) => {
+    event.preventDefault();
     if (event.code.toLowerCase() == 'space') {
         checkColor(colorName);
-    }*/
-});
+    };
+    });
 
-document.addEventListener ('click', (event) => {
+    document.addEventListener ('click', (event) => {
     const type = event.target.dataset.type;
     if (type == 'lock') {
      const node = event.target.tagName.toLowerCase() == 'i'
@@ -47,11 +50,6 @@ document.addEventListener ('click', (event) => {
 }
 
 const cols = document.querySelectorAll ('.col');
-
-
-
-
-
 
 function checkColor(colorName) {
     let colorsArr = [];
@@ -92,6 +90,7 @@ function checkColor(colorName) {
         colorsArr = grey;
     }
     setRandomColors(false, colorsArr);
+    return colorsArr
 }
 
 function setRandomColors(isInitial, colorsArr) {
@@ -141,7 +140,7 @@ function setRandomColors(isInitial, colorsArr) {
         let colorWithoutHash=color.toString().substring(1);
         getColorName(colorWithoutHash, name);
       });
-    console.log (colors)
+      return colors;
 }
 
 function arrayRandElement(arr) {

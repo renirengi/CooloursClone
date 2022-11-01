@@ -4,12 +4,14 @@ import './styles.scss';
 import { SettingsService } from './js/settings.service';
 
 import { SettingsComponent } from './js/settings.component.js';
+import { PreviousColorComponent } from './js/previousColor.component.js';
 import { initColors } from './js/colors.component.js';
 
 
 const settings = SettingsService.getInstance();
 
 window.customElements.define('app-settings', SettingsComponent);
+window.customElements.define('app-previous-color', PreviousColorComponent);
 
 initColors();
 
