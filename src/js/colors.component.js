@@ -1,5 +1,6 @@
 import chroma from "chroma-js";
 import { SettingsService } from './settings.service';
+import { PreviousColorComponent } from './previousColor.component';
 
 import { red } from '../assets/color.js';
 import { pink } from '../assets/color.js';
@@ -14,22 +15,31 @@ import { white } from '../assets/color.js';
 import { black} from '../assets/color.js';
 import { grey } from '../assets/color.js';
 
+let colors;
 export function initColors() {
     const settings = SettingsService.getInstance();
     const colorName = settings.colorPallette;
-    
     const next = document.querySelector('.next');
+    let colorsArr = [];
 
-    window.addEventListener('load', () => checkColor(colorName));
+    window.addEventListener('load', () => {
+        colorsArr = checkColor(colorName);
+        setRandomColors(false, colorsArr, settings);
+        settings.listOfLastColors=colors;
+    });
     
     next.addEventListener ('click', (event) => {
-        checkColor(colorName); 
+        colorsArr = checkColor(colorName);
+        setRandomColors(false, colorsArr, settings);
+        settings.listOfLastColors=colors;
     });
 
     document.addEventListener ('keyup', (event) => {
     event.preventDefault();
     if (event.code.toLowerCase() == 'space') {
-        checkColor(colorName);
+        colorsArr = checkColor(colorName);
+        setRandomColors(false, colorsArr, settings);
+        settings.listOfLastColors=colors;
     };
     });
 
@@ -50,6 +60,7 @@ export function initColors() {
 }
 
 const cols = document.querySelectorAll ('.col');
+
 
 function checkColor(colorName) {
     let colorsArr = [];
@@ -89,12 +100,13 @@ function checkColor(colorName) {
     else if (colorName === 'grey') {
         colorsArr = grey;
     }
-    setRandomColors(false, colorsArr);
     return colorsArr
 }
 
-function setRandomColors(isInitial, colorsArr) {
-    const colors = isInitial ? getColorsFromHash() : [];
+function setRandomColors(isInitial, colorsArr, settings) {
+   /// console.log(colors);
+    settings.lastColors = colors;
+    colors = isInitial ? getColorsFromHash() : [];
     let color;
     
      cols.forEach(col => {
@@ -125,7 +137,7 @@ function setRandomColors(isInitial, colorsArr) {
         }
         
         if (!isInitial) {
-            colors.push(color)
+            colors.push(chroma(color).hex())
           }
 
         col.style.background = color;
@@ -140,6 +152,7 @@ function setRandomColors(isInitial, colorsArr) {
         let colorWithoutHash=color.toString().substring(1);
         getColorName(colorWithoutHash, name);
       });
+      ///console.log (colors);
       return colors;
 }
 

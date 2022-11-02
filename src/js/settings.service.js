@@ -1,7 +1,9 @@
 const defaultSettings = {
     language: 'eng',
     colorPallette: 'all',
+    listOfLastColors: ['#d83786', '#186a3c', '#74e4fc', '#bb6103', '#044143'],
     listOfHiddenElements: [],
+    
   };
   
   const settingsName = 'settings';
@@ -14,6 +16,7 @@ const defaultSettings = {
   
       this.settings = storedSettings ? JSON.parse(storedSettings) : defaultSettings;
       this.listOfHiddenCallbacks = [];
+      this.listOfLastColorsCallbacks = [];
     }
   
     static getInstance() {
@@ -25,6 +28,10 @@ const defaultSettings = {
   
     addCallbackToListOfHiddenUpdates(callback) {
       this.listOfHiddenCallbacks.push(callback);
+    }
+
+    addCallbackToLastColors(callback) {
+      this.lastColorsCallbacks.push(callback);
     }
   
     get language() {
@@ -43,6 +50,17 @@ const defaultSettings = {
     set colorPallette(color) {
       this.settings.colorPallette = color;
       this.#saveSettings();
+    }
+    
+    get listOfLastColors() {
+      return this.settings.listOfLastColors;
+    }
+
+    set listOfLastColors(list) {
+      this.settings.listOfLastColors = list;
+      console.log()
+      this.#saveSettings();
+      this.listOfLastColorsCallbacks.forEach((callback) => callback(list));
     }
   
     get listOfHiddenElements() {

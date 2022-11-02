@@ -3,7 +3,6 @@ import { SettingsService } from './settings.service';
 export class PreviousColorComponent extends HTMLElement {
   constructor() {
     super();
-  ///this.shadowDom = this.attachShadow({ mode: 'open' });
   this.shadowDom = document.querySelector('app-previous-color');
   this.settings = SettingsService.getInstance();
   }
@@ -19,5 +18,11 @@ export class PreviousColorComponent extends HTMLElement {
         `;
 
     this.shadowDom.innerHTML = template;
+    this.colorsElements = this.shadowDom.querySelectorAll('.previous-color');
+    this.#loadColorsSettings(); 
 }
+
+  #loadColorsSettings(){
+    this.settings.listOfLastColors.forEach((color, index)=> this.colorsElements[index].style.background= color);
+  }
 }

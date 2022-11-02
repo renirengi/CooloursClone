@@ -4,7 +4,7 @@ export class SettingsComponent extends HTMLElement {
   constructor() {
     super();
   //  this.shadowDom = this.attachShadow({ mode: 'open' });
-  this.shadowDom = document.querySelector('app-settings');
+    this.shadowDom = document.querySelector('app-settings');
     this.settings = SettingsService.getInstance();
   }
 
