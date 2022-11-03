@@ -19,6 +19,7 @@ export function initColors() {
     const settings = SettingsService.getInstance();
     const colorName = settings.colorPallette;
     const next = document.querySelector('.next');
+    const back = document.querySelector('.back');
     let colorsArr = [];
 
     window.addEventListener('load', () => {
@@ -32,6 +33,11 @@ export function initColors() {
         colorsArr = checkColor(colorName);
         setRandomColors(false, colorsArr, settings);
         settings.listOfLastColors=colors
+    });
+
+    back.addEventListener ('click', (event) => {
+        const cols = document.querySelectorAll ('.col');
+        settings.listOfLastColors.forEach((color, index)=> cols[index].style.background= color);
     });
 
     document.addEventListener ('keyup', (event) => {
@@ -106,7 +112,6 @@ function checkColor(colorName) {
 }
 
 function setRandomColors(isInitial, colorsArr, settings) {
-   /// console.log(colors);
     settings.lastColors = colors;
     colors = isInitial ? getColorsFromHash() : [];
     let color;
@@ -199,6 +204,5 @@ function copyToClickboard(text) {
 
    function loadColorsSettings(settings) {
     let colorsElements = document.querySelectorAll('.previous-color');
-    console.log(settings.listOfLastColors)
     settings.listOfLastColors.forEach((color, index)=> colorsElements[index].style.background= color);
    }
