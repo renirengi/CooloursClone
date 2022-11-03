@@ -1,6 +1,5 @@
 import chroma from "chroma-js";
 import { SettingsService } from './settings.service';
-import { PreviousColorComponent } from './previousColor.component';
 
 import { red } from '../assets/color.js';
 import { pink } from '../assets/color.js';
@@ -24,22 +23,25 @@ export function initColors() {
 
     window.addEventListener('load', () => {
         colorsArr = checkColor(colorName);
-        setRandomColors(false, colorsArr, settings);
-        settings.listOfLastColors=colors;
+        setRandomColors(false, colorsArr, settings); 
+        settings.listOfLastColors=colors;  
     });
     
     next.addEventListener ('click', (event) => {
+        loadColorsSettings(settings)
         colorsArr = checkColor(colorName);
         setRandomColors(false, colorsArr, settings);
-        settings.listOfLastColors=colors;
+        settings.listOfLastColors=colors
     });
 
     document.addEventListener ('keyup', (event) => {
     event.preventDefault();
     if (event.code.toLowerCase() == 'space') {
+        loadColorsSettings(settings)
         colorsArr = checkColor(colorName);
         setRandomColors(false, colorsArr, settings);
-        settings.listOfLastColors=colors;
+        settings.listOfLastColors=colors
+       
     };
     });
 
@@ -193,4 +195,10 @@ function copyToClickboard(text) {
           return document.location.hash.substring(1).split('-').map(color => '#' + color);
        }
        return [];
+   }
+
+   function loadColorsSettings(settings) {
+    let colorsElements = document.querySelectorAll('.previous-color');
+    console.log(settings.listOfLastColors)
+    settings.listOfLastColors.forEach((color, index)=> colorsElements[index].style.background= color);
    }
