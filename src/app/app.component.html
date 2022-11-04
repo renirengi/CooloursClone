@@ -1,0 +1,16 @@
+<header>
+  <div class="title-container">
+    <img class = "icon" src="favicon.ico" alt="icon">
+    <h1 class="title">Coolours Clone</h1>
+  </div>
+  <div class="choice-container">
+  </div>
+</header>
+<app-colors-list [colors]="selectedColors"></app-colors-list>
+<div class="button-container">
+  <button class="button" (click)="applyPreviousColors()"><i class="fa-solid fa-arrow-left-long"></i></button>
+  <button class="button" (click)="applyNextColors()"><i class="fa-solid fa-arrow-right-long"></i></button>
+</div>
+<footer>
+
+</footer>
