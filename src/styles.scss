@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 * {
   padding: 0;
   margin: 0;
@@ -6,56 +7,18 @@
 }
 
  body {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
   color:white;
-  font-family: Roboto, sans-serif;
   background: black;
+  height: 100%;
+  width: 100%
 }
 
-header,
+.header,
 footer {
-  min-height: 12.5vh;
-  margin: 0;
-  padding: 0;
-}
-
-header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.title-container,
-.choice-container{
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 30%;
-  margin: 0 1.5em;
-}
-
-.choice-container {
-width: 65%;
-
-app-settings {
- width: 10%;
- height: 60px;
-
- app-previous-color {
+  height: 12.5vh;
   width: 90%;
-  }
+  margin: 0 auto;
 }
-}
-
 
 .icon {
   width: 50px;
@@ -70,14 +33,49 @@ app-settings {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: hue 10s infinite linear;
+  margin: 0 0.5em;
+
 }
 
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
+  .title-container,
+  .choice-container {
+  display: flex;
+  align-items: center;
+  width: 45%;
+  }
+
+  .choice-container {
+  width: 55%;
+  }
+
+  .title {
+  font-size: 2.5em;
+  margin: 0 0.5em;
+}
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ul {
+  margin: 0;
+  width: 100%;
+
+}
 li {
   display: flex;
   height: 12.5vh;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
 
   app-color {
     display: flex;
@@ -102,10 +100,6 @@ li {
   }
 }
 
-app-color h2 {
-
-}
-
  app-color button {
   border: none;
   background: transparent;
@@ -123,7 +117,7 @@ app-color button:hover {
 
 .button-container {
   text-align: center;
-
+}
 .button {
   color: #fc3735;
   background-image: -webkit-linear-gradient(92deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -141,8 +135,6 @@ app-color button:hover {
   transition: 0.3s;
 }
 
-}
-
 
 
 @keyframes hue {
@@ -153,3 +145,6 @@ app-color button:hover {
     -webkit-filter: hue-rotate(-360deg);
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,27 @@
+<div class = "settings-header">
+  <div class = "settings-title">
+      <img class = "icon" src="favicon.ico" alt="icon">
+      <h2 class="title settings">Settings</h2>
+  </div>
+
+  <button class="button xmark"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<mat-radio-group aria-label="Languages">
+  <h3>Languages</h3>
+  <div class = "language block">
+  <mat-radio-button value="English">English</mat-radio-button>
+  <mat-radio-button value="Russian">Russian</mat-radio-button>
+  </div>
+</mat-radio-group>
+
+<mat-radio-group aria-label="Colors">
+  <h3>Color's pallette</h3>
+  <div class = "colors block">
+  <mat-radio-button *ngFor="let color of colors" [value]="color">{{color}} colors</mat-radio-button>
+  </div>
+</mat-radio-group>
+
+<div class="button-container">
+  <button mat-stroked-button  type="button" color="primary">Default</button>
+</div>
+

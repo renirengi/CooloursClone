@@ -1,4 +1,4 @@
-export type PaletteType = 'red' | 'pink' | 'purple' | 'blue' | 'teal' | 'green' | 'yellow' | 'orange' | 'brown' | 'white' | 'black' | 'grey' | 'random';
+export type PaletteType = 'red' | 'pink' | 'purple' | 'blue' | 'teal' | 'green' | 'yellow' | 'orange' | 'brown' | 'white' | 'black' | 'grey' | 'random'
 
 export const predefinedPalettes = {
   red: ['#FF0000','#EE204D','#E32636','#FF2400','#B00000','#480607','#9B2D30','#900020','#5E2129','#7B001C','#CD5C5C','#C41E3A','#960018','#A2231D','#FF0033','#BC5D58','#FF4D00','#CB4154','#E34234','#D53032','#B32821','#781F19','#CD4A4C','#D95030','#F80000','#DC143C','#C51D34','#BF2233','#7F180D','#AF2B1E','#642424','#FF2B2B','#B32428','#4F0014','#560319','#B44C43','#721422','#F8173E','#75151E','#FF496C','#AB4E52','#9B111E','#92000A','#E63244','#B17267','#8c4743','#A52019','#FC2847','#CB2821','#8B0000','#D53E07','#A12312','#CC0605','#AB343A','#801818','#CE2029','#CA3A27','#C10020'],
