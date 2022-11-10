@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as chroma from 'chroma-js';
+import { LockChangeEvent } from '../color/color.component';
 import { PaletteType, predefinedPalettes } from '../constants/predefined-palettes';
-
-
 
 @Component({
   selector: 'app-main-page',
@@ -11,55 +10,60 @@ import { PaletteType, predefinedPalettes } from '../constants/predefined-palette
 })
 export class MainPageComponent implements OnInit {
   public selectedColors: string[] = [];
-  public previousColors: string[] = [];
-  private saveColors:string[]=[];
+  public previousColors: string[] = ['#d83786', '#186a3c', '#74e4fc', '#bb6103', '#044143'];
 
-  constructor() {}
+  private lockedColors: Set<string> = new Set();
 
-  ngOnInit(): void {
+  constructor() { }
+
+  public ngOnInit(): void {
     this.applyNextColors();
   }
 
-  applyNextColors(): void {
-    let numberOfColors:number = 5;
-   if (this.selectedColors.length > 0) {
+  public applyNextColors(): void {
+    let numberOfColors: number = 5;
+    if (this.selectedColors.length > 0) {
       this.previousColors = this.selectedColors;
     }
-   /*if ((this.saveColors.length) > 0 && (this.saveColors.length < 5)) {
-       numberOfColors = 5-this.selectedColors.length;
-       let arr = this.generateColors(numberOfColors);
-       this.selectedColors.concat(this.saveColors, arr);
-       console.log (this.selectedColors);
-   }*/
 
     this.selectedColors = this.generateColors(numberOfColors);
-
   }
 
-  applyPreviousColors(): void {
+  public applyPreviousColors(): void {
     if (this.previousColors.length > 0) {
       this.selectedColors = [...this.previousColors];
     }
   }
 
-  private generateColors(numberOfColors:number,initialPalette: PaletteType = 'random'): string[] {
-    if (initialPalette === 'random') {
-      return Array(numberOfColors).fill(0).map(() => chroma.random().hex('rgb'));
+  public lockColor({color, locked}: LockChangeEvent) {
+    if (locked) {
+      this.lockedColors.add(color);
     } else {
-      return Array(numberOfColors).fill(0).map(() => this.getRandomColor(predefinedPalettes[initialPalette]));
+      this.lockedColors.delete(color);
     }
+  }
+
+  private generateColors(numberOfColors: number, initialPalette: PaletteType = 'random'): string[] {
+    return Array(numberOfColors).fill(0)
+      .map((_val, i) => this.isColorLocked(this.selectedColors[i]) ? this.selectedColors[i] : this.generateColor(initialPalette));
+  }
+
+  private generateColor(initialPalette: PaletteType = 'random'): string {
+    if (initialPalette === 'random') {
+      return chroma.random().hex('rgb');
+    }
+
+    return this.getRandomColor(predefinedPalettes[initialPalette]);
+  }
+
+  private isColorLocked(color: string) {
+    return this.lockedColors.has(color);
   }
 
   private getRandomColor(colors: string[]) {
     const colorIndex = Math.floor(Math.random() * (colors.length - 1));
 
     return colors[colorIndex];
-  }
-
-  public addColor(currentColor:string) {
-
-    this.saveColors.push(currentColor);
-    console.log (this.saveColors);
   }
 
 }

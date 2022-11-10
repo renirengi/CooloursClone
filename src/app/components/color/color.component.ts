@@ -1,10 +1,12 @@
 import { Component, ChangeDetectionStrategy, Input, SimpleChanges, OnChanges, Output, EventEmitter } from '@angular/core';
 import * as chroma from 'chroma-js';
-import { join } from 'path';
-import { firstValueFrom, map, Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { ColorNameService } from 'src/app/services/color-name.service';
 
-
+export interface LockChangeEvent {
+  color: string;
+  locked: boolean;
+}
 
 @Component({
   selector: 'app-color',
@@ -13,27 +15,18 @@ import { ColorNameService } from 'src/app/services/color-name.service';
     <div class="col rgb" data-type="copy">{{ getRgb(color) }}</div>
     <div class="col name" data-type="copy">{{ name$ | async }}</div>
 
-  <ng-container *ngIf="!lock; else lockOrUnlock">
-    <button data-type="lock" class="lock">
-      <i class="fa-solid fa-lock-open" data-type="lock" (click)="saveColor(color)"></i>
+    <button class="lock" (click)="lockColor()">
+      <i class="fa-solid" data-type="lock" [ngClass]="{'fa-lock-open': !locked, 'fa-lock': locked}"></i>
     </button>
-  </ng-container>
-
-  <ng-template #lockOrUnlock>
-  <button data-type="lock" class="lock" (click)="saveColor(color)">
-      <i class="fa-solid fa-lock" data-type="lock"></i>
-  </button>
-  </ng-template>
-
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColorComponent implements OnChanges {
   @Input() color: string = '#fff';
-  @Output() update = new EventEmitter();
+  @Output() lockChange = new EventEmitter<LockChangeEvent>();
 
   public name$: Observable<string> = of('White');
-  public lock:boolean = false;
+  public locked: boolean = false;
 
   constructor(
     private colorService: ColorNameService,
@@ -55,13 +48,9 @@ export class ColorComponent implements OnChanges {
     );
   }
 
-  saveColor(color:string){
-    this.lock = !this.lock;
-    if(this.lock) {
-      this.update.emit(color);
-    }
+  lockColor(): void {
+    this.locked = !this.locked;
+    this.lockChange.emit({ color: this.color, locked: this.locked });
   }
-
-
 
 }

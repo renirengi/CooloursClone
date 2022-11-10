@@ -53,7 +53,9 @@ h3 {
     height: 21vh;
   }
 
-  .button-container {
+  .settings-button-container {
+    display: flex;
+    justify-content: center;
     height: 8vh;
     margin-top: 1em;
 

@@ -1,4 +1,4 @@
-<app-colors-list [colors]="selectedColors" (update)="addColor($event)"></app-colors-list>
+<app-colors-list [colors]="selectedColors" (lockChange)="lockColor($event)"></app-colors-list>
 <div class="button-container">
   <button class="button" (click)="applyPreviousColors()"><i class="fa-solid fa-arrow-left-long"></i></button>
   <button class="button" (click)="applyNextColors()"><i class="fa-solid fa-arrow-right-long"></i></button>

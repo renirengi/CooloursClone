@@ -1,26 +1,27 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { LockChangeEvent } from '../color/color.component';
 
 @Component({
   selector: 'app-colors-list',
   template: `
     <ul>
-      <li *ngFor="let color of colors; index as i;" [style.backgroundColor]="color"><app-color [color]="color" (update)="checkColor($event)"></app-color><li>
+      <li *ngFor="let color of colors" [style.backgroundColor]="color">
+        <app-color [color]="color" (lockChange)="lockColor($event)"></app-color>
+      </li>
     </ul>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColorsListComponent implements OnInit {
   @Input() colors: string[] = [];
-  @Output() update = new EventEmitter();
-
+  @Output() lockChange = new EventEmitter<LockChangeEvent>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  checkColor (currentColor:string) {
-    this.update.emit(currentColor);
+  lockColor(data: LockChangeEvent) {
+    this.lockChange.emit(data);
   }
-
 }

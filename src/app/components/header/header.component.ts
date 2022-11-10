@@ -12,7 +12,7 @@ import { SettingModalComponent } from '../setting-modal/setting-modal.component'
 export class HeaderComponent implements OnInit {
   @Input() colors!:string[];
 
-  private readonly headerModalConfig = { width: '70vw', height: '70vh', data: {} };
+  private readonly headerModalConfig = { width: '65vw', height: '70vh', data: {} };
 
   constructor(
     public dialog: MatDialog,
@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
   }
 
   public showSettingsModal() {
-    console.log (1);
     this.dialog.open(SettingModalComponent,this.headerModalConfig);
   }
 
