@@ -12,9 +12,11 @@ export interface IDefaultSettings {
 })
 export class SettingsService {
 
+  // private _currentSettings$ = new BehaviorSubject<IUser|null>(null);
+
   public defaultSettings = {
     language: 'eng',
-    colorPallette: 'Random',
+    colorPallette: 'random',
     history: true,
   };
 
@@ -30,7 +32,7 @@ export class SettingsService {
   public getSettingsInstance(){
     const storedSettings = localStorage.getItem(this.settingsName);
     this.settings = storedSettings ? JSON.parse(storedSettings) : this.defaultSettings;
-    ///this.saveSettings();
+    this.saveSettings();
   }
 
   get language() {

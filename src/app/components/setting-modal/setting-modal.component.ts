@@ -12,7 +12,7 @@ export class SettingModalComponent implements OnInit {
 
   public language: string = '';
   public color: string = '';
-  public colors: string[] = ['Random','Red', 'Pink', 'Purple', 'Blue', 'Teal', 'Green', 'Yellow', 'Orange', 'Brown', 'White', 'Black', 'Grey']
+  public colors: string[] = ['random','red', 'pink', 'purple', 'blue', 'teal', 'green', 'yellow', 'orange', 'brown', 'white', 'black', 'grey']
 
   public settingsForm = new FormGroup({
     language: new FormControl('', []),
